@@ -277,6 +277,6 @@ manifest:
   # West-related configuration for the nrf repository.
   self:
     # This repository should be cloned to ncs/nrf.
-    path: nrf
+    path: sdk-nrf
     # This line configures west extensions.
     west-commands: scripts/west-commands.yml
