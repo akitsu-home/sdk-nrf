@@ -62,6 +62,16 @@ Building and running
 
 .. |sample path| replace:: :file:`samples_cpp/bluetooth/peripheral_lbs`
 
+You can build and flash this sample using the following command (replace parameters as needed):
+
+.. code-block:: console
+
+   export PATH=/opt/nordic/ncs/toolchains/322ac893fe/bin:$PATH
+   export ZEPHYR_TOOLCHAIN_VARIANT=zephyr
+   export ZEPHYR_SDK_INSTALL_DIR=/opt/nordic/ncs/toolchains/322ac893fe/opt/zephyr-sdk
+   west build --pristine --board nrf54l15dk/nrf54l15/cpuapp --no-sysbuild samples_cpp/bluetooth/peripheral_lbs
+   west flash
+
 .. include:: /includes/build_and_run.txt
 
 Testing
