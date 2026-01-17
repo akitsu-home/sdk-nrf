@@ -118,6 +118,50 @@ rm -rf build
 arm-zephyr-eabi-g++ --version
 ```
 
+## デバッグ実行 (VS Code)
+
+VS Code 上で Cortex-Debug 拡張機能を使用してデバッグを行う場合の注意点です。
+
+### 必要な拡張機能
+
+- [Cortex-Debug](https://marketplace.visualstudio.com/items?itemName=marus.ko)
+
+### 必要な Python パッケージ
+
+ビルド環境によっては、以下の Python パッケージが不足しておりビルドエラーになる場合があります。その場合はインストールしてください。
+
+```bash
+pip install pyelftools intelhex
+```
+
+### launch.json の設定 (nRF54L15 DK の例)
+
+nRF54L15 DK (`nrf54l15dk/nrf54l15/cpuapp`) を使用する場合、J-Link のデバイス名あツールチェーンの設定に注意が必要です。
+また、Sysbuild が有効な場合、生成される ELF ファイルのパスが変更になります。
+
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Cortex Debug: Blinky C++",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/blinky/zephyr/zephyr.elf", /* Sysbuild 使用時は build/<app_name>/zephyr/ 配下になります */
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "jlink",
+            "serverpath": "/usr/local/bin/JLinkGDBServer", /* パスが通っていない場合は明示的に指定 */
+            "device": "nRF54L15_M33", /* nRF54L15 DK (CpuApp) の場合のデバイス名 */
+            "interface": "swd",
+            "armToolchainPath": "/opt/nordic/ncs/toolchains/322ac893fe/opt/zephyr-sdk/arm-zephyr-eabi/bin", /* Zephyr SDK 内の GDB を使用 */
+            "toolchainPrefix": "arm-zephyr-eabi",
+            "runToEntryPoint": "main",
+            "preLaunchTask": "West Build Blinky C++"
+        }
+    ]
+}
+```
+
 ## 参考資料
 
 - [nRF Connect SDK Documentation](https://docs.nordicsemi.com/bundle/ncs-latest/page/nrf/index.html)
